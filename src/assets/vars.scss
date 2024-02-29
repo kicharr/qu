@@ -4,28 +4,8 @@ $transition: all .2s ease-in-out;
 
 $showAnimation: showElement .5s ease-in-out alternate;
 
-@keyframes showElement {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: .5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+$tablet: 768px;
+$mobile: 420px;
 
-@keyframes acceptBg {
-  0% {
-    background-color: rgba($mainColor, 1);
-  }
-  50% {
-    background-color: rgba(75, 232, 121, 1);
-  }
-  100% {
-    background-color: rgba($mainColor, 1);
-  }
-}
 
 
