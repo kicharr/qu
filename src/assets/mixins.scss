@@ -10,6 +10,10 @@
   border-radius: .5rem;
   transition: $transition;
 
+  &:is(textarea) {
+    resize: none;
+  }
+
   &:focus-visible {
     outline: none;
     -webkit-box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);

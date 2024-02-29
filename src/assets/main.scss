@@ -34,6 +34,15 @@ body {
   border-radius: 2rem;
   transition: $transition;
 
+  &:hover {
+    box-shadow: 0 .1rem 0 #000000;
+    opacity: .7;
+  }
+
+  &:active {
+    transform: scale(.98);
+  }
+
   &--transparent {
     width: 100%;
     border-radius: .5rem;
@@ -69,16 +78,13 @@ body {
     text-align: center;
     text-decoration: underline;
     background-color: transparent;
+
+    &:hover {
+      box-shadow: unset;
+    }
   }
 
-  &:hover {
-    box-shadow: 0 .1rem 0 #000000;
-    opacity: .7;
-  }
 
-  &:active {
-    transform: scale(.98);
-  }
 
 
   @include mobile {

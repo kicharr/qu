@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from "vue";
+import {onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
 import {handleErrors, removingErrorHandling} from "@/lib/utilities.js";
 
 const props = defineProps(['currentChangedTask', 'taskList']);
@@ -11,14 +11,13 @@ const isChangeTaskCreationDate = props.taskList.filter(task => task.taskId === p
 
 const title = ref(isChangeTaskTitle ? isChangeTaskTitle : '');
 const body = ref(isChangeTaskBody ? isChangeTaskBody : '');
+
+watch(title, () => removingErrorHandling('textareaName'))
+watch(body, () => removingErrorHandling('textareaBody'));
 const changeModalVisible = (e) => {
   if (document.getElementById('modal')?.contains(e?.target) && e?.currentTarget?.id !== 'buttonClose') return;
   emit('changeModalVisible');
 }
-
-watch(title, (val) => removingErrorHandling('textareaName'))
-watch(body, (val) => removingErrorHandling('textareaBody'));
-
 const saveNewTask = () => {
   if (title.value && body.value) {
 
@@ -38,7 +37,6 @@ const saveNewTask = () => {
     console.log('Данные не заполнены.')
   }
 }
-
 const updateTask = () => {
   emit('updateTask', {
     taskId: props.currentChangedTask,
@@ -63,12 +61,12 @@ const updateTask = () => {
         <label>
           Имя задачи
           <textarea v-model="title" id="textareaName" class="textarea" tabindex="1" placeholder="Введите название"
-                    required cols="10"></textarea>
+                    required rows="3"></textarea>
         </label>
         <label>
           Тело задачи
           <textarea v-model="body" id="textareaBody" class="textarea" tabindex="2" placeholder="Введите описание"
-                    required cols="10"></textarea>
+                    required rows="10" onresize=""></textarea>
         </label>
       </div>
       <div class="modal__actions">
@@ -98,7 +96,7 @@ const updateTask = () => {
 
 .modal {
   position: absolute;
-  top: calc(50% - 9.87rem);
+  top: calc(50% - 17.8rem);
   left: calc(50% - 12.5rem);
   background: $mainColor;
   padding: 1rem 2rem;
