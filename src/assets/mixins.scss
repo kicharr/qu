@@ -1,0 +1,26 @@
+@import "@/assets/vars";
+
+@mixin inputStyle {
+  font-family: 'Montserrat', serif;
+  background-color: transparent;
+  border: .05rem solid #FFFFFF;
+  font-size: .7rem;
+  color: #FFFFFF;
+  padding: .6rem;
+  border-radius: .5rem;
+  transition: $transition;
+
+  &:focus-visible {
+    outline: none;
+    -webkit-box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+    -moz-box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+    box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+  }
+
+  &--error {
+    -webkit-box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    -moz-box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    border: .05rem solid rgba(255, 19, 19, 1);
+  }
+}
