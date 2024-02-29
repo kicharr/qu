@@ -2,11 +2,10 @@
 import TaskCard from "@/components/tasks-components/TaskCard.vue";
 import TaskManagerModal from "@/components/tasks-components/TaskManagerModal.vue";
 
-import {showAnimationAccept} from "@/lib/utilities.js";
+import {showAnimation} from "@/lib/utilities.js";
 
 import {computed, onMounted, ref} from "vue";
 import {useTaskStore} from "@/store/task.js";
-
 
 const taskStore = useTaskStore();
 
@@ -21,25 +20,32 @@ const changeTaskManagerModalVissible = () => {
   if (!isModalVissible.value) {
     isTaskToChange.value = null
   }
+
 }
 const addNewTask = (data) => {
   taskStore.createTask(data);
+  showAnimation(`buttonSaveTask`, 'show-accept', 'green');
 };
 const deleteTask = (id) => {
-  taskStore.deleteTask(id);
+  showAnimation(`card-${id}`, 'show-delete', 'red');
+  setTimeout(() => {
+    taskStore.deleteTask(id);
+  }, 500);
 }
 const changeTaskModal = (id) => {
-
   isTaskToChange.value = id;
   changeTaskManagerModalVissible();
-
 }
 const updateTask = (data, elId) => {
   taskStore.changeTask(data);
   changeTaskManagerModalVissible();
 
-  showAnimationAccept(`${elId}`, 'show-accept');
+  showAnimation(`${elId}`, 'show-accept', 'green');
 }
+
+onMounted(() => {
+  taskStore.checkTaskListInLocalStorage();
+})
 </script>
 
 <template>
@@ -57,7 +63,8 @@ const updateTask = (data, elId) => {
 
   <main class="main container">
     <div class="actions">
-      <button @click="changeTaskManagerModalVissible" class="button actions__button">Создать задачу</button>
+      <RouterLink class="button button--link-back" to="/">Вернуться на главную страницу</RouterLink>
+      <button id="buttonSaveTask" @click="changeTaskManagerModalVissible" class="button actions__button">Создать задачу</button>
     </div>
 
     <div class="tasks-list">
@@ -77,21 +84,27 @@ const updateTask = (data, elId) => {
 </template>
 
 <style scoped lang="scss">
+@import "../assets/main";
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: .5rem 0;
+  margin-bottom: 1rem;
+  gap: 1rem;
+
+  @include mobile {
+    gap: .5rem;
+    flex-direction: column;
+  }
 }
 
 .tasks-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 20rem;
 
   &__message {
+    margin-top: calc(50vh - 15px);
+    color: #FFFFFF;
     text-align: center;
+    font-weight: 400;
   }
 }
 </style>

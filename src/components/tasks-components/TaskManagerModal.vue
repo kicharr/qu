@@ -1,5 +1,6 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
+import {handleErrors, removingErrorHandling} from "@/lib/utilities.js";
 
 const props = defineProps(['currentChangedTask', 'taskList']);
 const emit = defineEmits(['changeModalVisible', 'saveNewTask', 'updateTask']);
@@ -8,11 +9,15 @@ const isChangeTaskTitle = props.taskList.filter(task => task.taskId === props.cu
 const isChangeTaskBody = props.taskList.filter(task => task.taskId === props.currentChangedTask)[0]?.body;
 const isChangeTaskCreationDate = props.taskList.filter(task => task.taskId === props.currentChangedTask)[0]?.creationDate;
 
-
 const title = ref(isChangeTaskTitle ? isChangeTaskTitle : '');
 const body = ref(isChangeTaskBody ? isChangeTaskBody : '');
-const changeModalVisible = () => emit('changeModalVisible');
 
+watch(title, () => removingErrorHandling('textareaName'))
+watch(body, () => removingErrorHandling('textareaBody'));
+const changeModalVisible = (e) => {
+  if (document.getElementById('modal')?.contains(e?.target) && e?.currentTarget?.id !== 'buttonClose') return;
+  emit('changeModalVisible');
+}
 const saveNewTask = () => {
   if (title.value && body.value) {
 
@@ -28,11 +33,10 @@ const saveNewTask = () => {
 
     document.querySelector('.textarea').classList.remove('textarea--error');
   } else {
-    if (!body.value && !title.value) document.querySelectorAll('.textarea').forEach(el => el.classList.add('textarea--error'));
+    handleErrors(title.value, body.value);
     console.log('Данные не заполнены.')
   }
 }
-
 const updateTask = () => {
   emit('updateTask', {
     taskId: props.currentChangedTask,
@@ -42,34 +46,32 @@ const updateTask = () => {
   }, document.getElementById(`card-${props.currentChangedTask}`)?.id);
 }
 
-
 </script>
 
 <template>
-  <div class="modal-wrapper">
-    <div class="modal">
+  <div @click="changeModalVisible" class="modal-wrapper">
+    <div id="modal" class="modal">
       <div class="modal__heading">
-        <h2>{{  currentChangedTask === null ? `Новая задача` : `Редактировать задачу` }} </h2>
-        <button @click="changeModalVisible" class="button--close">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 64 64" fill="none">
-            <path
-                d="M22.6066 21.3934C22.2161 21.0029 21.5829 21.0029 21.1924 21.3934C20.8019 21.7839 20.8019 22.4171 21.1924 22.8076L22.6066 21.3934ZM40.9914 42.6066C41.3819 42.9971 42.0151 42.9971 42.4056 42.6066C42.7961 42.2161 42.7961 41.5829 42.4056 41.1924L40.9914 42.6066ZM21.1924 41.1924C20.8019 41.5829 20.8019 42.2161 21.1924 42.6066C21.5829 42.9971 22.2161 42.9971 22.6066 42.6066L21.1924 41.1924ZM42.4056 22.8076C42.7961 22.4171 42.7961 21.7839 42.4056 21.3934C42.0151 21.0029 41.3819 21.0029 40.9914 21.3934L42.4056 22.8076ZM21.1924 22.8076L40.9914 42.6066L42.4056 41.1924L22.6066 21.3934L21.1924 22.8076ZM22.6066 42.6066L42.4056 22.8076L40.9914 21.3934L21.1924 41.1924L22.6066 42.6066Z"
-                fill="#FFF  "/>
-          </svg>
+        <h2>{{ currentChangedTask === null ? `Новая задача` : `Редактировать задачу` }} </h2>
+        <button id="buttonClose" @click="changeModalVisible" class="button--close">
+          <img src="/images/close.svg" alt="Закрыть">
         </button>
       </div>
       <div class="modal__body">
         <label>
           Имя задачи
-          <textarea v-model="title" class="textarea" tabindex="1" placeholder="Введите название" required></textarea>
+          <textarea v-model="title" id="textareaName" class="textarea" tabindex="1" placeholder="Введите название"
+                    required rows="3"></textarea>
         </label>
         <label>
           Тело задачи
-          <textarea v-model="body" class="textarea" tabindex="2" placeholder="Введите описание" required></textarea>
+          <textarea v-model="body" id="textareaBody" class="textarea" tabindex="2" placeholder="Введите описание"
+                    required rows="10" onresize=""></textarea>
         </label>
       </div>
       <div class="modal__actions">
-        <button v-if="currentChangedTask" @click="updateTask" class="button button--transparent" tabindex="3">Обнвоить</button>
+        <button v-if="currentChangedTask" @click="updateTask" class="button button--transparent" tabindex="3">Обнвоить
+        </button>
         <button v-else @click="saveNewTask" class="button button--transparent" tabindex="3">Сохранить</button>
       </div>
     </div>
@@ -78,7 +80,7 @@ const updateTask = () => {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/vars";
+@import "@/assets/main";
 
 .modal-wrapper {
   position: fixed;
@@ -86,11 +88,15 @@ const updateTask = () => {
   width: 100vw;
   height: 100vh;
   background: rgba(10, 10, 10, 0.8);
+
+  @include tablet {
+    padding: 0 .5rem;
+  }
 }
 
 .modal {
   position: absolute;
-  top: calc(50% - 9.87rem);
+  top: calc(50% - 17.8rem);
   left: calc(50% - 12.5rem);
   background: $mainColor;
   padding: 1rem 2rem;
@@ -107,6 +113,26 @@ const updateTask = () => {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+
+    h2 {
+      @include tablet {
+        font-size: 1rem;
+      }
+    }
+
+    @include tablet {
+      margin-bottom: .5rem;
+    }
+  }
+
+  @include tablet {
+    position: relative;
+    top: calc(50% - 9.87rem);
+    left: 0;
+  }
+
+  @include mobile {
+    padding: .5rem .8rem;
   }
 }
 
@@ -115,5 +141,10 @@ label {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 1.5rem;
+
+  @include tablet {
+    font-size: .7rem;
+    margin-bottom: 1rem;
+  }
 }
 </style>

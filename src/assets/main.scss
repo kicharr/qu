@@ -10,6 +10,7 @@ body {
   font-size: 1rem;
   font-family: 'Montserrat', serif;
   font-weight: 400;
+  background-color: #1E1E1E;
 
   position: relative;
 }
@@ -32,6 +33,15 @@ body {
   padding: .8rem 1.3rem;
   border-radius: 2rem;
   transition: $transition;
+
+  &:hover {
+    box-shadow: 0 .1rem 0 #000000;
+    opacity: .7;
+  }
+
+  &:active {
+    transform: scale(.98);
+  }
 
   &--transparent {
     width: 100%;
@@ -64,13 +74,22 @@ body {
     }
   }
 
-  &:hover {
-    box-shadow: 0 .1rem 0 #000000;
-    opacity: .7;
+  &--link-back {
+    text-align: center;
+    text-decoration: underline;
+    background-color: transparent;
+
+    &:hover {
+      box-shadow: unset;
+    }
   }
 
-  &:active {
-    transform: scale(.98);
+
+
+
+  @include mobile {
+    font-size: .75rem;
+    padding: .4rem .7rem;
   }
 }
 
@@ -86,5 +105,8 @@ body {
   animation: acceptBg 1s linear alternate;
 }
 
+.show-delete {
+  animation: deleteBg .5s linear alternate;
+}
 
 
