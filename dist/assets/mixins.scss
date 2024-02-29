@@ -1,0 +1,84 @@
+@import "../../public/assets/vars";
+
+@mixin inputStyle {
+  font-family: 'Montserrat', serif;
+  background-color: transparent;
+  border: .05rem solid #FFFFFF;
+  font-size: .7rem;
+  color: #FFFFFF;
+  padding: .6rem .3rem;
+  border-radius: .5rem;
+  transition: $transition;
+
+  &:is(textarea) {
+    resize: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    -webkit-box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+    -moz-box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+    box-shadow: 0 0 20px -1px rgba(255, 255, 255, .7);
+  }
+
+  &--error {
+    -webkit-box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    -moz-box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    box-shadow: 0 0 20px -1px rgba(255, 34, 34, 0.7);
+    border: .05rem solid rgba(255, 19, 19, 1);
+  }
+}
+
+@mixin taskCardBoxShadow {
+  -webkit-box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
+  -moz-box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
+  box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
+}
+
+// Media
+@mixin tablet() {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin mobile() {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+
+//KeyFrames
+@keyframes showElement {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes acceptBg {
+  0% {
+    background-color: rgba($mainColor, 1);
+  }
+  50% {
+    background-color: rgba(75, 232, 121, 1);
+  }
+  100% {
+    background-color: rgba($mainColor, 1);
+  }
+}
+
+@keyframes deleteBg {
+  0% {
+    background-color: rgba($mainColor, 1);
+  }
+  100% {
+    background-color: rgb(231, 34, 49);
+  }
+}
