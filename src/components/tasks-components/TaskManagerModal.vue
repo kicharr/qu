@@ -80,7 +80,7 @@ const updateTask = () => {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/main";
+@import "../../../public/assets/main";
 
 .modal-wrapper {
   position: fixed;

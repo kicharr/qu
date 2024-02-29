@@ -84,7 +84,8 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "../assets/main";
+@import "../../public/assets/main";
+
 .actions {
   display: flex;
   justify-content: space-between;

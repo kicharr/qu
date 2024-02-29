@@ -61,7 +61,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
 </template>
 
 <style scoped lang="scss">
-@import "src/assets/main";
+@import "../../../public/assets/main";
 
 .card {
   width: 100%;
