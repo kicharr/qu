@@ -46,6 +46,7 @@ const updateTask = () => {
   }, document.getElementById(`card-${props.currentChangedTask}`)?.id);
 }
 
+
 </script>
 
 <template>
@@ -65,7 +66,7 @@ const updateTask = () => {
         </label>
         <label>
           Тело задачи
-          <textarea v-model="body" id="textareaBody" class="textarea" tabindex="2" placeholder="Введите описание"
+            <textarea v-model="body" id="textareaBody" class="textarea" tabindex="2" placeholder="Введите описание"
                     required rows="10" onresize=""></textarea>
         </label>
       </div>
