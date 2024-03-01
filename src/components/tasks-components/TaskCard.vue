@@ -1,5 +1,5 @@
 <script setup>
-import {stringValidation} from "@/lib/utilities.js";
+import {convertingTimestamp, stringValidation} from "@/lib/utilities.js";
 
 const emits = defineEmits(['deleteTask', 'changeTaskModal']);
 const props = defineProps(['taskData']);
@@ -14,7 +14,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
     <div class="card__settings">
       <div class="task-data">
         <span>{{ taskData?.taskId }}</span>
-        <span>{{ taskData?.creationDate }}</span>
+        <span>{{ !taskData?.edited ? convertingTimestamp(taskData?.creationDate)  : taskData?.edited?.editTime + ' (Изменено)'  }}</span>
       </div>
       <div class="settings-action">
         <button @click="changeTaskModal" class="button--card-settings button--card-settings__edit">
@@ -47,12 +47,9 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
     </div>
 
     <div class="card__heading">
-      <h3>{{ stringValidation(taskData?.title, 150) }}</h3>
-      <div class="tooltip tooltip__title">
-        <div class="tooltip__content">
-          <span>{{ stringValidation(taskData?.title, 200) }}</span>
-        </div>
-      </div>
+      <RouterLink class="card-link" :to="{name: 'task', params: {id: taskData?.taskId}}">
+        {{ stringValidation(taskData?.title, 150) }}
+      </RouterLink>
     </div>
     <div class="card__body">
       <pre>{{ taskData?.body }}</pre>
@@ -114,12 +111,6 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
       width: 100%;
       display: inline-block;
 
-      &:hover ~ .tooltip__title {
-        opacity: 1;
-        visibility: visible;
-        font-size: .7rem;
-      }
-
       @include tablet {
         font-size: .8rem;
       }
@@ -142,40 +133,6 @@ pre {
   }
 }
 
-.tooltip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-
-  opacity: 0;
-  overflow: visible;
-
-  font-size: .7rem;
-
-  padding: 0.5rem;
-  border-radius: .5rem;
-  background: rgba(10, 10, 10, 10);
-  transition: $transition;
-
-  &__content {
-    position: relative;
-  }
-
-  &::after {
-    position: absolute;
-    bottom: -20px;
-    left: calc(50% - 0.70rem);
-    z-index: 11;
-    content: url("/images/tooltip-triangle.svg");
-  }
-
-
-  @include tablet {
-    display: none;
-  }
-}
-
 .task-data {
   display: flex;
   flex-direction: column;
@@ -195,5 +152,11 @@ pre {
 .settings-action {
   display: flex;
   gap: .5rem;
+}
+
+.card-link {
+  font-size: 1.17rem;
+  font-weight: 700;
+  text-decoration: underline;
 }
 </style>

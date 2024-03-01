@@ -84,9 +84,6 @@ body {
     }
   }
 
-
-
-
   @include mobile {
     font-size: .75rem;
     padding: .4rem .7rem;
@@ -101,12 +98,6 @@ body {
   @include inputStyle;
 }
 
-.show-accept {
-  animation: acceptBg 1s linear alternate;
-}
 
-.show-delete {
-  animation: deleteBg .5s linear alternate;
-}
 
 

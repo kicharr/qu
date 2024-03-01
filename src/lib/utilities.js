@@ -1,11 +1,16 @@
+import dayjs from "dayjs";
+import {diffChars} from 'diff';
+
+const regExpToFindLink = new RegExp(/^((http|https|ftp):\/\/)?(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)/i);
 export const stringValidation = (str, num) => str.length >= num ? str.slice(0, num) + '...' : str;
 
 export const handleErrors = (title, body) => {
-    const textareaName = document.getElementById('textareaName');
-    const textareaBody = document.getElementById('textareaBody');
-
-    if (!title) textareaName.classList.add('textarea--error');
-    if (!body) textareaBody.classList.add('textarea--error');
+    if (!title) {
+        document.getElementById('textareaName').classList.add('textarea--error');
+    }
+    if (!body) {
+        document.getElementById('textareaBody').classList.add('textarea--error');
+    }
 };
 
 export const removingErrorHandling = (val) => {
@@ -34,3 +39,16 @@ export const showAnimation = (el, className, flag) => {
             break;
     }
 }
+
+export const getTimeStamp = () => Math.floor(new Date().getTime() / 1000);
+
+export const convertingTimestamp = (timestamp) => {
+    if (!timestamp) return;
+
+    if (typeof timestamp !== "number") {
+        console.log(new Error('Произошла ошибка в конвертации даты.'))
+    }
+
+    return dayjs(timestamp * 1000).format('DD.MM.YYYY - HH:mm');
+}
+
