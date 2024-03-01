@@ -20,7 +20,6 @@ const changeTaskManagerModalVissible = () => {
   if (!isModalVissible.value) {
     isTaskToChange.value = null
   }
-
 }
 const addNewTask = (data) => {
   taskStore.createTask(data);

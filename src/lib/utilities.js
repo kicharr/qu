@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import {diffChars} from 'diff';
+
 const regExpToFindLink = new RegExp(/^((http|https|ftp):\/\/)?(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)/i);
 export const stringValidation = (str, num) => str.length >= num ? str.slice(0, num) + '...' : str;
 
@@ -37,4 +40,15 @@ export const showAnimation = (el, className, flag) => {
     }
 }
 
+export const getTimeStamp = () => Math.floor(new Date().getTime() / 1000);
+
+export const convertingTimestamp = (timestamp) => {
+    if (!timestamp) return;
+
+    if (typeof timestamp !== "number") {
+        console.log(new Error('Произошла ошибка в конвертации даты.'))
+    }
+
+    return dayjs(timestamp * 1000).format('DD.MM.YYYY - HH:mm');
+}
 

@@ -18,7 +18,8 @@ const routes = [
         path: '/task/:id',
         name: 'task',
         component: SeparateTask,
-    }
+    },
+
 ]
 
 const router = createRouter({

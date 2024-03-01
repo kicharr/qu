@@ -2,12 +2,18 @@
 import {computed, onMounted, ref} from "vue";
 import {useTaskStore} from "@/store/task.js";
 import {useRoute} from 'vue-router'
+import {
+  comparingStringsDifferencesBody,
+  comparingStringsDifferencesTitle,
+} from "../lib/string-handling.js";
+import {convertingTimestamp} from "../lib/utilities.js";
 
 const route = useRoute();
 
 const taskStore = useTaskStore();
 
 const currentTaskData = computed(() => taskStore.currentTask);
+
 onMounted(() => {
   taskStore.getCurrentTask(route.params.id);
 })
@@ -36,18 +42,20 @@ onMounted(() => {
       <div class="task-settings">
         <div class="task-settings__creation">
           <h3>Дата создания</h3>
-          <pre>{{ currentTaskData?.creationDate }}</pre>
+          <p>{{ convertingTimestamp(currentTaskData?.creationDate) }}</p>
         </div>
       </div>
 
       <div v-if="currentTaskData?.edited" class="task-settings">
         <div class="task-settings__creation">
-          <h3>Даты редактирования</h3>
-          <ul>
-            <li v-for="(item, index) in currentTaskData?.edited" :key="index">
-              {{ item?.editDate }}
-            </li>
-          </ul>
+          <h3>Последняя дата редактирования</h3>
+          <p>{{ convertingTimestamp(currentTaskData?.edited?.editTime) }}</p>
+        </div>
+        <div class="changed-data">
+          <pre
+              v-html="comparingStringsDifferencesTitle(currentTaskData?.edited?.oldValue?.title, currentTaskData?.title)"></pre>
+          <pre
+              v-html="comparingStringsDifferencesBody(currentTaskData?.edited?.oldValue, {title: currentTaskData?.title, body: currentTaskData?.body})"></pre>
         </div>
       </div>
 
@@ -103,12 +111,7 @@ onMounted(() => {
   &__item {
     h1 {
       font-size: .8rem;
-      background-color: #3b3b3b;
-      padding: 1rem 1.5rem;
-      border-radius: .5rem;
-      -webkit-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-      -moz-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-      box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+      @include insertBoxShadow;
     }
 
     p {
@@ -118,30 +121,38 @@ onMounted(() => {
 
     pre {
       font-size: .8rem;
-      background-color: #3b3b3b;
-      padding: 1rem 1.5rem;
-      border-radius: .5rem;
-      -webkit-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-      -moz-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-      box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+      @include insertBoxShadow;
     }
   }
 
 }
 
 .task-settings {
-  background-color: #3b3b3b;
-  padding: 1rem 1.5rem;
-  border-radius: .5rem;
-  -webkit-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-  -moz-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
-  box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+  @include insertBoxShadow;
 
   &__creation {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    p {
+      font-size: .8rem;
+      font-weight: 400;
+      @include insertBoxShadowDark;
+    }
   }
 }
 
+
+.changed-data {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  pre {
+    display: inline-block;
+    font-size: .7rem;
+    @include insertBoxShadowDark;
+  }
+}
 </style>

@@ -2,32 +2,42 @@ import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {v4} from "uuid";
 import dayjs from "dayjs";
+import {convertingTimestamp, getTimeStamp} from "@/lib/utilities.js";
 
 export const useTaskStore = defineStore('task', () => {
     const taskList = ref([]);
     const currentTask = ref({});
     const createTask = ({title, body}) => {
-        const taskId = v4();
-        const creationDate = dayjs(new Date()).format('DD.MM.YYYY - HH:mm');
-
-        taskList.value.push({taskId: taskId, title, body, creationDate: creationDate});
+        taskList.value.push(
+            {
+                taskId: v4(),
+                title,
+                body,
+                creationDate: getTimeStamp()
+            }
+        );
         saveTaskListInLocalStorage();
     }
     const getCurrentTask = (id) => {
-        if (!taskList.value.length) {
-            checkTaskListInLocalStorage();
-        }
-
+        if (!taskList.value.length) checkTaskListInLocalStorage();
         currentTask.value = taskList.value.filter(task => task?.taskId === id)[0];
     }
-    const changeTask = ({taskId, title, creationDate, body}) => {
+    const changeTask = (newData) => {
+
         taskList.value = taskList.value.map((task) => {
-            if (task?.taskId !== taskId) return task;
-            const updatedCreationDate = `${dayjs(new Date()).format('DD.MM.YYYY - hh:mm')} (Изменено)`;
-            return task = {
-                taskId, title, creationDate, edited: [{editDate: updatedCreationDate,}], body
-            };
+            if (task?.taskId !== newData?.taskId) return task;
+
+            return {
+                taskId: newData?.taskId,
+                title: newData?.title,
+                creationDate: newData?.creationDate,
+                body: newData?.body,
+                edited: {
+                    editTime: getTimeStamp(), oldValue: {title: task?.title, body: task?.body}
+                }
+            }
         });
+
 
         saveTaskListInLocalStorage(taskList.value)
     }

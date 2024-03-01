@@ -7,7 +7,7 @@
   font-size: .7rem;
   color: #FFFFFF;
   padding: .6rem .3rem;
-  border-radius: .5rem;
+  border-radius: .1rem;
   transition: $transition;
 
   &:is(textarea) {
@@ -33,6 +33,24 @@
   -webkit-box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
   -moz-box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
   box-shadow: 0 0 12px 0 rgba(86, 88, 238, 1);
+}
+
+@mixin insertBoxShadowDark {
+  background-color: #1f1f1f;
+  padding: .5rem .7rem;
+  border-radius: .5rem;
+  -webkit-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+  -moz-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+  box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+}
+
+@mixin insertBoxShadow {
+  background-color: #3b3b3b;
+  padding: 1rem 1.5rem;
+  border-radius: .5rem;
+  -webkit-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+  -moz-box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
+  box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, .75);
 }
 
 // Media
@@ -81,4 +99,12 @@
   100% {
     background-color: rgb(231, 34, 49);
   }
+}
+
+.show-accept {
+  animation: acceptBg 1s linear alternate;
+}
+
+.show-delete {
+  animation: deleteBg .5s linear alternate;
 }

@@ -1,5 +1,5 @@
 <script setup>
-import {stringValidation} from "@/lib/utilities.js";
+import {convertingTimestamp, stringValidation} from "@/lib/utilities.js";
 
 const emits = defineEmits(['deleteTask', 'changeTaskModal']);
 const props = defineProps(['taskData']);
@@ -14,7 +14,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
     <div class="card__settings">
       <div class="task-data">
         <span>{{ taskData?.taskId }}</span>
-        <span>{{ !taskData?.edited ? taskData?.creationDate  : taskData?.edited[taskData?.edited.length - 1].editDate  }}</span>
+        <span>{{ !taskData?.edited ? convertingTimestamp(taskData?.creationDate)  : taskData?.edited?.editTime + ' (Изменено)'  }}</span>
       </div>
       <div class="settings-action">
         <button @click="changeTaskModal" class="button--card-settings button--card-settings__edit">
