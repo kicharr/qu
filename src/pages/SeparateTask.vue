@@ -3,6 +3,7 @@ import {computed, onMounted, ref} from "vue";
 import {useTaskStore} from "@/store/task.js";
 import {useRoute} from 'vue-router'
 import {
+  checkLinkMatch,
   comparingStringsDifferencesBody,
   comparingStringsDifferencesTitle,
 } from "../lib/string-handling.js";
@@ -35,6 +36,11 @@ onMounted(() => {
         <p>Описание задачи</p>
         <pre>{{ currentTaskData?.body }}</pre>
       </div>
+
+      <div class="task-info__item--bg-default">
+        <p>Ссылки в тексте</p>
+        <pre v-html="checkLinkMatch(currentTaskData?.body)"></pre>
+      </div>
     </div>
 
     <div class="task-data-settings">
@@ -66,8 +72,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "public/assets/main";
-
+@import "@/assets/styles/main";
 .actions {
   padding: 1rem 0;
   display: flex;
@@ -112,6 +117,7 @@ onMounted(() => {
     h1 {
       font-size: .8rem;
       @include insertBoxShadow;
+      background-color: $mainColor;
     }
 
     p {
@@ -122,6 +128,22 @@ onMounted(() => {
     pre {
       font-size: .8rem;
       @include insertBoxShadow;
+      background-color: $mainColor;
+    }
+
+    &--bg-default {
+
+      pre {
+        background-color: transparent;
+        padding: 0;
+        font-size: .65rem;
+
+
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
     }
   }
 
@@ -129,6 +151,7 @@ onMounted(() => {
 
 .task-settings {
   @include insertBoxShadow;
+  background-color: $mainColor;
 
   &__creation {
     display: flex;

@@ -14,7 +14,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
     <div class="card__settings">
       <div class="task-data">
         <span>{{ taskData?.taskId }}</span>
-        <span>{{ !taskData?.edited ? convertingTimestamp(taskData?.creationDate)  : taskData?.edited?.editTime + ' (Изменено)'  }}</span>
+        <span>{{ !taskData?.edited ? convertingTimestamp(taskData?.creationDate) : convertingTimestamp(taskData?.edited?.editTime) + ' (Изменено)'  }}</span>
       </div>
       <div class="settings-action">
         <button @click="changeTaskModal" class="button--card-settings button--card-settings__edit">
@@ -58,8 +58,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
 </template>
 
 <style scoped lang="scss">
-@import "../../../public/assets/main";
-
+@import "@/assets/styles/main";
 .card {
   width: 100%;
   z-index: 6;
@@ -120,6 +119,7 @@ const changeTaskModal = () => emits('changeTaskModal', props.taskData?.taskId);
 
   &__body {
     font-size: .8rem;
+    @include insertBoxShadowDark;
   }
 
   &:hover {
@@ -157,6 +157,10 @@ pre {
 .card-link {
   font-size: 1.17rem;
   font-weight: 700;
-  text-decoration: underline;
+
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

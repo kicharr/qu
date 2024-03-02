@@ -83,7 +83,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "../../public/assets/main";
+@import "@/assets/styles/main";
 
 .actions {
   display: flex;
