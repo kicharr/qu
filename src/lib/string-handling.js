@@ -1,4 +1,7 @@
 import {diffChars} from "diff";
+
+const checkLinkInString = new RegExp(/(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/);
+
 export const comparingStringsDifferencesTitle = (oldVal, newVal) => {
     if (diffChars(oldVal, newVal)[1]?.added) {
         return `<span style="color: #51c02e;"> ${diffChars(oldVal, newVal)[1].value}</span>`;
@@ -21,4 +24,14 @@ export const comparingStringsDifferencesBody = (oldVal, newVal) => {
     }
 
     return 'Описание не изменилось.';
+}
+
+export const checkLinkMatch = (str) => {
+    if (checkLinkInString.test(str)) {
+        return `<a target="_blank" style="color: #5658ee; text-decoration: underline;" href="${str.match(checkLinkInString)[0]}">${str.match(checkLinkInString)[0]}</a>`
+    } else {
+        return 'Ссылок в тексте нет'
+    }
+
+
 }

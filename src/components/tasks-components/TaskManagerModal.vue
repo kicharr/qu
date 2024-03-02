@@ -53,7 +53,7 @@ const updateTask = () => {
   <div @click="changeModalVisible" class="modal-wrapper">
     <div id="modal" class="modal">
       <div class="modal__heading">
-        <h2>{{ currentChangedTask === null ? `Новая задача` : `Редактировать задачу` }} </h2>
+        <h2>{{ currentChangedTask === null ? "Новая задача" : "Редактировать задачу" }} </h2>
         <button id="buttonClose" @click="changeModalVisible" class="button--close">
           <img src="/images/close.svg" alt="Закрыть">
         </button>
@@ -81,8 +81,7 @@ const updateTask = () => {
 </template>
 
 <style scoped lang="scss">
-@import "../../../public/assets/main";
-
+@import "@/assets/styles/main";
 .modal-wrapper {
   position: fixed;
   z-index: 10;
@@ -96,8 +95,8 @@ const updateTask = () => {
 }
 
 .modal {
-  position: absolute;
-  top: calc(50% - 17.8rem);
+  position: fixed;
+  top: calc(50% - 13.8rem);
   left: calc(50% - 12.5rem);
   background: $mainColor;
   padding: 1rem 2rem;

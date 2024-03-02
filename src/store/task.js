@@ -57,6 +57,7 @@ export const useTaskStore = defineStore('task', () => {
 
     const checkTaskListInLocalStorage = () => {
         const taskListArrayed = JSON.parse(localStorage.getItem('taskList'));
+        if (!taskListArrayed) return;
         taskList.value = [...taskListArrayed];
     }
 
